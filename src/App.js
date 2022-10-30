@@ -10,10 +10,12 @@ import BarChart from "./components/Analytics/BarChart";
 import LineChart from "./components/Analytics/LineChart";
 
 function App() {
-  const [dynamoData, setDynamoData] = useState({});
+  const [dynamoData, setDynamoData] = useState([]);
   const [slotData, setSlotData] = useState([false, false, false, false]);
   const [dayArr, setDayArr] = useState([0, 0, 0, 0, 0, 0, 0]);
+
   useEffect(() => {
+    //getting data
     const onRead = () => {
       // var dynamodb = new AWS.DynamoDB();
       var docClient = new AWS.DynamoDB.DocumentClient();
@@ -26,7 +28,7 @@ function App() {
         if (err) {
           console.log("err is ", err);
         } else {
-          setDynamoData(data);
+          setDynamoData(data.Items);
           let arr = [0, 0, 0, 0, 0, 0, 0];
           data.Items.map((obj) => {
             let day = new Date(obj.payload.Time).getDay();
@@ -34,7 +36,7 @@ function App() {
             arr[day] += 1;
           });
           setDayArr(arr);
-          console.log(arr);
+          // console.log(arr);
 
           // console.log(data);
         }
@@ -54,7 +56,7 @@ function App() {
             if (key === "Id") continue;
             arr[Number(key[key.length - 1]) - 1] = value;
           }
-          console.log(arr);
+          // console.log(arr);
           setSlotData(arr);
           // console.log(arr);
           // console.log(obj);
@@ -71,7 +73,10 @@ function App() {
         <Navmain />
         <Routes>
           <Route path="/" element={<Home slot={slotData} />} />
-          <Route path="weekDay" element={<BarChart dayArr={dayArr} />} />
+          <Route
+            path="weekDay"
+            element={<BarChart dynamoData={dynamoData} dayArr={dayArr} />}
+          />
           <Route
             path="revenue"
             element={<LineChart dynamoData={dynamoData} />}
