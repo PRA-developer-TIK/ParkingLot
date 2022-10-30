@@ -1,74 +1,74 @@
-import React, { useState, useEffect } from 'react'
-import { MDBContainer } from 'mdb-react-ui-kit';
+import React, { useState, useEffect } from "react";
+import { MDBContainer } from "mdb-react-ui-kit";
 import {
-    Chart as ChartJs,
-    CategoryScale,LinearScale,
-    BarElement,
-    Title,
-    Legend,
-    LineElement,
-    PointElement, Filler,
-    Tooltip
-
+  Chart as ChartJs,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Legend,
+  LineElement,
+  PointElement,
+  Filler,
+  Tooltip,
 } from "chart.js";
 
-import {Bar} from "react-chartjs-2";
-
+import { Bar } from "react-chartjs-2";
 
 ChartJs.register(
-    CategoryScale,
-    LinearScale,
-    BarElement,
-    Title,
-    Legend,
-    LineElement,
-    PointElement, Filler,Tooltip
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Legend,
+  LineElement,
+  PointElement,
+  Filler,
+  Tooltip
+);
 
-)
+const BarChart = ({ dayArr }) => {
+  const [chartData, setChartData] = useState({
+    datasets: [],
+  });
+  const [chartOpt, setChartOpt] = useState({});
 
-
-
-const BarChart = () => {
-
-    const [chartData, setChartData] = useState({
-        datasets: []
+  useEffect(() => {
+    setChartData({
+      labels: [
+        "Sunday",
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+      ],
+      datasets: [
+        {
+          label: "Car parking times",
+          data: dayArr,
+          borderColor: "rgb(53,162,235)",
+          backgroundColor: "rgba(53,162,235,0.4)",
+        },
+      ],
     });
-    const [chartOpt, setChartOpt] = useState({});
-    
-    useEffect(() => {
-        setChartData({
-            labels: ["Morning", "Evening", "Afternoon"],
-            datasets: [{
-                label: "Car parking times",
-                data: [12, 34, 44],
-                borderColor: "rgb(53,162,235)",
-                backgroundColor: "rgba(53,162,235,0.4)"
-            }]
 
-        });
+    setChartOpt({
+      responsive: true,
+      plugins: {
+        legend: {
+          position: "top",
+        },
+        title: {
+          display: true,
+          text: "Car parking times",
+        },
+      },
+    });
+  }, []);
 
-        setChartOpt({
-            responsive: true,
-            plugins: {
-                legend: {
-                    position: "top"
-                },
-                title: {
-                    display: true,
-                    text: "Car parking times"
-                }
-            }
-        })
-        
-    },[]);
+  return <Bar data={chartData} options={chartOpt} />;
+};
 
-    return (
-        <MDBContainer>
-            <Bar data={chartData} options={chartOpt } />
-        </MDBContainer>
-        
-      
-  )
-}
-
-export default BarChart
+export default BarChart;
