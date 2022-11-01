@@ -41,21 +41,23 @@ const BarChart = ({ dayArr, dynamoData }) => {
         // console.log(dynamoData);
         dynamoData?.map((obj) => {
           const day = new Date(obj.Time).getDay();
-          console.log("mis ", day);
+
+          // console.log("mis ", day);
           const timeStr = obj.Time.substring(0, 12);
-          const start = new Date("Oct 1, 2022 18:54:23"); //timeStr + obj.payload.Start;
-          const end = new Date("Oct 1, 2022 20:54:23"); //timeStr + obj.payload.End;
+          // console.log(timeStr);
+          const start = new Date(timeStr + obj.payload.Start); //timeStr + obj.payload.Start;
+          const end = new Date(timeStr + obj.payload.End); //timeStr + obj.payload.End;
           // console.log(start);
           var res = Math.abs(end - start) / 1000;
           // console.log(res);
           var mins =
             (Math.floor(res / 3600) % 24) * 60 + (Math.floor(res / 60) % 60);
-          console.log(mins);
+          // console.log(mins);
           var cost = Math.round(mins * 0.5);
-          console.log(cost);
+          // console.log(cost);
           arr[day] = cost;
           setRevArr(arr);
-          console.log(arr);
+          // console.log(arr);
         });
       };
       calRev();

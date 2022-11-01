@@ -42,8 +42,8 @@ const LineChart = ({ dynamoData }) => {
         const month = new Date(obj.Time).getMonth();
         console.log("mis ", month);
         const timeStr = obj.Time.substring(0, 12);
-        const start = new Date("Oct 1, 2022 18:54:23"); //timeStr + obj.payload.Start;
-        const end = new Date("Oct 1, 2022 20:54:23"); //timeStr + obj.payload.End;
+        const start = new Date(timeStr + obj.payload.Start); //timeStr + obj.payload.Start;
+        const end = new Date(timeStr + obj.payload.End); //timeStr + obj.payload.End;
         // console.log(start);
         var res = Math.abs(end - start) / 1000;
         // console.log(res);

@@ -30,6 +30,7 @@ function App() {
         } else {
           setDynamoData(data.Items);
           let arr = [0, 0, 0, 0, 0, 0, 0];
+          console.log(data);
           data.Items.map((obj) => {
             let day = new Date(obj.payload.Time).getDay();
             // console.log(day);
@@ -50,12 +51,14 @@ function App() {
         if (err) {
           console.log("err is ", err);
         } else {
+          // console.log(data);
           let obj = data.Items[0].payload;
           let arr = [false, false, false, false];
           for (const [key, value] of Object.entries(obj)) {
             if (key === "Id") continue;
             arr[Number(key[key.length - 1]) - 1] = value;
           }
+
           // console.log(arr);
           setSlotData(arr);
           // console.log(arr);
